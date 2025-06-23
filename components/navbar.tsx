@@ -24,7 +24,7 @@ export function Navbar() {
     { href: "/", icon: Home, label: "ホーム" },
     { href: "/attendance", icon: Calendar, label: "勤怠入力・履歴" },
     { href: "/payroll", icon: DollarSign, label: "月次給与明細" },
-    { href: "/settings", icon: Settings, label: "扶養・控除・保険" },
+    { href: "/deductions", icon: Settings, label: "扶養・控除・保険" },
     { href: "/employees", icon: Users, label: "従業員管理" },
     { href: "/confirm", icon: CheckCircle, label: "給与確定" },
   ];
