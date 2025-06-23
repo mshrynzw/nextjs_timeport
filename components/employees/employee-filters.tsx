@@ -27,6 +27,21 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
     });
   };
 
+  const handleDepartmentChange = (value: string) => {
+    const actualValue = value === "all" ? "" : value;
+    handleFilterChange('department', actualValue);
+  };
+
+  const handleEmploymentTypeChange = (value: string) => {
+    const actualValue = value === "all" ? "" : value;
+    handleFilterChange('employmentType', actualValue as EmployeeFilters['employmentType']);
+  };
+
+  const handleStatusChange = (value: string) => {
+    const actualValue = value === "all" ? "" : value;
+    handleFilterChange('status', actualValue as EmployeeFilters['status']);
+  };
+
   const clearFilters = () => {
     onFiltersChange({
       search: "",
@@ -54,12 +69,12 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           </div>
 
           {/* 部署フィルター */}
-          <Select value={filters.department} onValueChange={(value) => handleFilterChange('department', value)}>
+          <Select value={filters.department || "all"} onValueChange={handleDepartmentChange}>
             <SelectTrigger className="w-full md:w-[150px] bg-white shadow-sm border-gray-200 hover:border-blue-300 transition-colors">
               <SelectValue placeholder="部署" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">すべて</SelectItem>
+              <SelectItem value="all">すべて</SelectItem>
               {departments.map((dept) => (
                 <SelectItem key={dept} value={dept}>
                   {dept}
@@ -69,12 +84,12 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           </Select>
 
           {/* 雇用形態フィルター */}
-          <Select value={filters.employmentType} onValueChange={(value) => handleFilterChange('employmentType', value as EmployeeFilters['employmentType'])}>
+          <Select value={filters.employmentType || "all"} onValueChange={handleEmploymentTypeChange}>
             <SelectTrigger className="w-full md:w-[150px] bg-white shadow-sm border-gray-200 hover:border-purple-300 transition-colors">
               <SelectValue placeholder="雇用形態" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">すべて</SelectItem>
+              <SelectItem value="all">すべて</SelectItem>
               <SelectItem value="regular">正社員</SelectItem>
               <SelectItem value="contract">契約社員</SelectItem>
               <SelectItem value="parttime">パート</SelectItem>
@@ -83,12 +98,12 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           </Select>
 
           {/* 在籍状況フィルター */}
-          <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value as EmployeeFilters['status'])}>
+          <Select value={filters.status || "all"} onValueChange={handleStatusChange}>
             <SelectTrigger className="w-full md:w-[150px] bg-white shadow-sm border-gray-200 hover:border-green-300 transition-colors">
               <SelectValue placeholder="在籍状況" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">すべて</SelectItem>
+              <SelectItem value="all">すべて</SelectItem>
               <SelectItem value="active">在籍中</SelectItem>
               <SelectItem value="inactive">退職済み</SelectItem>
             </SelectContent>
