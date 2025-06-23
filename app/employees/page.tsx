@@ -2,7 +2,6 @@
 
 import { Navbar } from "@/components/navbar";
 import { EmployeeStats } from "@/components/employees/employee-stats";
-import { EmployeeFilters } from "@/components/employees/employee-filters";
 import { EmployeeTable } from "@/components/employees/employee-table";
 import { EmployeeModal } from "@/components/employees/employee-modal";
 import { EmployeeForm } from "@/components/employees/employee-form";
@@ -10,6 +9,9 @@ import { CSVImport } from "@/components/employees/csv-import";
 import { CSVExport } from "@/components/employees/csv-export";
 import { DepartmentManagement } from "@/components/employees/department-management";
 import { useState } from "react";
+import dynamic from 'next/dynamic';
+
+const EmployeeFilters = dynamic(() => import('@/components/employees/employee-filters'), { ssr: false });
 
 // サンプルデータ
 const employeesData = [

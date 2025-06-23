@@ -6,19 +6,21 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Search, Filter, X } from "lucide-react";
 
+interface EmployeeFilters {
+  search: string;
+  department: string;
+  employmentType: 'regular' | 'contract' | 'parttime' | 'temporary' | '';
+  status: 'active' | 'inactive' | '';
+}
+
 interface EmployeeFiltersProps {
-  filters: {
-    search: string;
-    department: string;
-    employmentType: string;
-    status: string;
-  };
-  onFiltersChange: (filters: any) => void;
+  filters: EmployeeFilters;
+  onFiltersChange: (filters: EmployeeFilters) => void;
   departments: string[];
 }
 
 export function EmployeeFilters({ filters, onFiltersChange, departments }: EmployeeFiltersProps) {
-  const handleFilterChange = (key: string, value: string) => {
+  const handleFilterChange = (key: keyof EmployeeFilters, value: string) => {
     onFiltersChange({
       ...filters,
       [key]: value
@@ -67,7 +69,7 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           </Select>
 
           {/* 雇用形態フィルター */}
-          <Select value={filters.employmentType} onValueChange={(value) => handleFilterChange('employmentType', value)}>
+          <Select value={filters.employmentType} onValueChange={(value) => handleFilterChange('employmentType', value as EmployeeFilters['employmentType'])}>
             <SelectTrigger className="w-full md:w-[150px] bg-white shadow-sm border-gray-200 hover:border-purple-300 transition-colors">
               <SelectValue placeholder="雇用形態" />
             </SelectTrigger>
@@ -81,7 +83,7 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           </Select>
 
           {/* 在籍状況フィルター */}
-          <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value)}>
+          <Select value={filters.status} onValueChange={(value) => handleFilterChange('status', value as EmployeeFilters['status'])}>
             <SelectTrigger className="w-full md:w-[150px] bg-white shadow-sm border-gray-200 hover:border-green-300 transition-colors">
               <SelectValue placeholder="在籍状況" />
             </SelectTrigger>
@@ -156,6 +158,6 @@ export function EmployeeFilters({ filters, onFiltersChange, departments }: Emplo
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 }
