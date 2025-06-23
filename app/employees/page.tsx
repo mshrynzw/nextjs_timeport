@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/navbar";
 import { EmployeeStats } from "@/components/employees/employee-stats";
+import { EmployeeFilters } from "@/components/employees/employee-filters";
 import { EmployeeTable } from "@/components/employees/employee-table";
 import { EmployeeModal } from "@/components/employees/employee-modal";
 import { EmployeeForm } from "@/components/employees/employee-form";
@@ -9,9 +10,6 @@ import { CSVImport } from "@/components/employees/csv-import";
 import { CSVExport } from "@/components/employees/csv-export";
 import { DepartmentManagement } from "@/components/employees/department-management";
 import { useState } from "react";
-import dynamic from 'next/dynamic';
-
-const EmployeeFilters = dynamic(() => import('@/components/employees/employee-filters'), { ssr: false });
 
 // サンプルデータ
 const employeesData = [
@@ -33,8 +31,8 @@ const employeesData = [
       hireDate: "2020-04-01",
       department: "開発部",
       position: "シニアエンジニア",
-      employmentType: "regular",
-      status: "active",
+      employmentType: "regular" as const,
+      status: "active" as const,
       yearsOfService: 5.2
     },
     salaryInfo: {
@@ -60,8 +58,8 @@ const employeesData = [
       hireDate: "2022-10-01",
       department: "人事部",
       position: "主任",
-      employmentType: "regular",
-      status: "active",
+      employmentType: "regular" as const,
+      status: "active" as const,
       yearsOfService: 2.7
     },
     salaryInfo: {
@@ -87,8 +85,8 @@ const employeesData = [
       hireDate: "2019-07-15",
       department: "営業部",
       position: "課長",
-      employmentType: "regular",
-      status: "active",
+      employmentType: "regular" as const,
+      status: "active" as const,
       yearsOfService: 6.4
     },
     salaryInfo: {
@@ -114,8 +112,8 @@ const employeesData = [
       hireDate: "2023-01-10",
       department: "経理部",
       position: "スタッフ",
-      employmentType: "contract",
-      status: "active",
+      employmentType: "contract" as const,
+      status: "active" as const,
       yearsOfService: 1.9
     },
     salaryInfo: {
@@ -141,8 +139,8 @@ const employeesData = [
       hireDate: "2018-03-01",
       department: "総務部",
       position: "部長",
-      employmentType: "regular",
-      status: "active",
+      employmentType: "regular" as const,
+      status: "active" as const,
       yearsOfService: 7.3
     },
     salaryInfo: {
@@ -160,6 +158,13 @@ const departmentStats = [
   { name: "総務部", count: 5, color: "#8b5cf6" }
 ];
 
+interface EmployeeFilters {
+  search: string;
+  department: string;
+  employmentType: 'regular' | 'contract' | 'parttime' | 'temporary' | '';
+  status: 'active' | 'inactive' | '';
+}
+
 export default function EmployeesPage() {
   const [employees, setEmployees] = useState(employeesData);
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
@@ -168,7 +173,7 @@ export default function EmployeesPage() {
   const [showCSVImport, setShowCSVImport] = useState(false);
   const [showCSVExport, setShowCSVExport] = useState(false);
   const [showDepartmentManagement, setShowDepartmentManagement] = useState(false);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<EmployeeFilters>({
     search: "",
     department: "",
     employmentType: "",
