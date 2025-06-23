@@ -69,5 +69,6 @@
     "typescript": "5.8.3",
     "vaul": "^0.9.9",
     "zod": "^3.23.8"
-  }
+  },
+  "packageManager": "pnpm@9.1.1"
 }
