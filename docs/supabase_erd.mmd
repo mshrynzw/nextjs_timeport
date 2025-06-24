@@ -1,0 +1,207 @@
+
+erDiagram
+  employees {
+    varchar id PK
+    varchar last_name
+    varchar first_name
+    varchar last_name_kana
+    varchar first_name_kana
+    date birth_date
+    text gender
+    varchar phone_number
+    varchar email
+    text profile_image
+  }
+
+  employment_info {
+    varchar employee_id FK
+    date hire_date
+    varchar department
+    varchar position
+    text employment_type
+    text status
+    numeric years_of_service
+  }
+
+  employee_statuses {
+    int id PK
+    text code
+    text label
+  }
+
+  employment_types {
+    int id PK
+    text code
+    text label
+  }
+
+  departments {
+    int id PK
+    text name
+  }
+
+  job_positions {
+    int id PK
+    text name
+    int level
+  }
+
+  salary_info {
+    varchar employee_id FK
+    int basic_salary
+    int total_allowance
+  }
+
+  payroll_confirm {
+    int id PK
+    int year
+    int month
+    date cutoff_date
+    date payment_date
+    text status
+  }
+
+  spouse_deduction {
+    int id PK
+    boolean has_spouse
+    varchar name
+    int income
+    int age
+    varchar deduction_type
+    int deduction_amount
+  }
+
+  employee_info {
+    int id PK
+    varchar name
+    varchar employee_id
+    varchar department
+    varchar pay_month
+  }
+
+  attendance {
+    int id PK
+    varchar employee_id
+    int work_days
+    int absent_days
+    int paid_leave_days
+    int late_early_count
+    int regular_hours
+    int actual_hours
+    int overtime_hours
+    int night_hours
+    int holiday_hours
+  }
+
+  attendance_statuses {
+    int id PK
+    text code
+    text label
+  }
+
+  approval_statuses {
+    int id PK
+    text code
+    text label
+  }
+
+  
+  payroll_statuses {
+    int id PK
+    text code
+    text label
+  }
+  
+  allowances {
+    int id PK
+    varchar employee_id
+    int basic_salary
+    int position_allowance
+    int qualification_allowance
+    int housing_allowance
+    int family_allowance
+    int commuting_allowance
+    int meal_allowance
+    int performance_allowance
+    int overtime_allowance
+    int night_allowance
+    int holiday_allowance
+  }
+
+  deductions {
+    int id PK
+    varchar employee_id
+    int health_insurance
+    int pension_insurance
+    int employment_insurance
+    int income_tax
+    int resident_tax
+    int life_insurance
+    int savings
+    int internal_savings
+    int union_fee
+  }
+
+  payroll_monthly_summary {
+    int id PK
+    varchar employee_id
+    varchar month
+    int total_pay
+    int total_deduction
+    int net_pay
+  }
+
+  department_stats {
+    int id PK
+    text name
+    int count
+    text color
+  }
+
+  attendance_monthly_summary {
+    int id PK
+    text month
+    int work_days
+    int overtime
+  }
+
+  application_types {
+    int id PK
+    text value
+    text label
+    text icon
+  }
+
+  allowance_categories {
+    int id PK
+    text title
+  }
+
+  allowance_items {
+    int id PK
+    int category_id FK
+    text name
+    int value
+    text icon
+    text color
+  }
+
+  approval_steps {
+    int id PK
+    int step
+    text title
+    text name
+    text role
+    text status
+    timestamp date
+    text comment
+  }
+
+  employees ||--o{ employment_info : has
+  employees ||--o{ salary_info : has
+  job_positions ||--o{ employment_info : has
+  employment_types ||--o{ employment_info : has
+
+  attendance ||--|| attendance_statuses : "has"
+  approval_steps ||--|| approval_statuses : "has"
+  payroll_confirm ||--|| payroll_statuses : "has"
