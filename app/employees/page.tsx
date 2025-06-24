@@ -9,154 +9,9 @@ import { EmployeeForm } from "@/components/employees/employee-form";
 import { CSVImport } from "@/components/employees/csv-import";
 import { CSVExport } from "@/components/employees/csv-export";
 import { DepartmentManagement } from "@/components/employees/department-management";
-import { useState } from "react";
-
-// サンプルデータ
-const employeesData = [
-  {
-    id: "EMP001",
-    personalInfo: {
-      lastName: "田中",
-      firstName: "太郎",
-      lastNameKana: "タナカ",
-      firstNameKana: "タロウ",
-      birthDate: "1985-04-15",
-      gender: "male",
-      phoneNumber: "090-1234-5678",
-      email: "tanaka@company.com",
-      profileImage: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
-    },
-    employmentInfo: {
-      employeeId: "EMP001",
-      hireDate: "2020-04-01",
-      department: "開発部",
-      position: "シニアエンジニア",
-      employmentType: "regular" as const,
-      status: "active" as const,
-      yearsOfService: 5.2
-    },
-    salaryInfo: {
-      basicSalary: 400000,
-      totalAllowance: 80000
-    }
-  },
-  {
-    id: "EMP002",
-    personalInfo: {
-      lastName: "鈴木",
-      firstName: "花子",
-      lastNameKana: "スズキ",
-      firstNameKana: "ハナコ",
-      birthDate: "1990-08-22",
-      gender: "female",
-      phoneNumber: "080-9876-5432",
-      email: "suzuki@company.com",
-      profileImage: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
-    },
-    employmentInfo: {
-      employeeId: "EMP002",
-      hireDate: "2022-10-01",
-      department: "人事部",
-      position: "主任",
-      employmentType: "regular" as const,
-      status: "active" as const,
-      yearsOfService: 2.7
-    },
-    salaryInfo: {
-      basicSalary: 350000,
-      totalAllowance: 60000
-    }
-  },
-  {
-    id: "EMP003",
-    personalInfo: {
-      lastName: "佐藤",
-      firstName: "次郎",
-      lastNameKana: "サトウ",
-      firstNameKana: "ジロウ",
-      birthDate: "1988-12-10",
-      gender: "male",
-      phoneNumber: "070-5555-1234",
-      email: "sato@company.com",
-      profileImage: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
-    },
-    employmentInfo: {
-      employeeId: "EMP003",
-      hireDate: "2019-07-15",
-      department: "営業部",
-      position: "課長",
-      employmentType: "regular" as const,
-      status: "active" as const,
-      yearsOfService: 6.4
-    },
-    salaryInfo: {
-      basicSalary: 450000,
-      totalAllowance: 90000
-    }
-  },
-  {
-    id: "EMP004",
-    personalInfo: {
-      lastName: "高橋",
-      firstName: "美咲",
-      lastNameKana: "タカハシ",
-      firstNameKana: "ミサキ",
-      birthDate: "1992-03-25",
-      gender: "female",
-      phoneNumber: "080-7777-9999",
-      email: "takahashi@company.com",
-      profileImage: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
-    },
-    employmentInfo: {
-      employeeId: "EMP004",
-      hireDate: "2023-01-10",
-      department: "経理部",
-      position: "スタッフ",
-      employmentType: "contract" as const,
-      status: "active" as const,
-      yearsOfService: 1.9
-    },
-    salaryInfo: {
-      basicSalary: 280000,
-      totalAllowance: 40000
-    }
-  },
-  {
-    id: "EMP005",
-    personalInfo: {
-      lastName: "山田",
-      firstName: "健一",
-      lastNameKana: "ヤマダ",
-      firstNameKana: "ケンイチ",
-      birthDate: "1980-09-08",
-      gender: "male",
-      phoneNumber: "090-3333-4444",
-      email: "yamada@company.com",
-      profileImage: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&fit=crop"
-    },
-    employmentInfo: {
-      employeeId: "EMP005",
-      hireDate: "2018-03-01",
-      department: "総務部",
-      position: "部長",
-      employmentType: "regular" as const,
-      status: "active" as const,
-      yearsOfService: 7.3
-    },
-    salaryInfo: {
-      basicSalary: 500000,
-      totalAllowance: 120000
-    }
-  }
-];
-
-const departmentStats = [
-  { name: "開発部", count: 25, color: "#3b82f6" },
-  { name: "営業部", count: 18, color: "#10b981" },
-  { name: "人事部", count: 8, color: "#f59e0b" },
-  { name: "経理部", count: 6, color: "#ef4444" },
-  { name: "総務部", count: 5, color: "#8b5cf6" }
-];
+import { useState, useEffect, useMemo } from "react";
+import { Employee, EmployeeWithDetails } from "@/types/employee";
+import { supabase } from "@/lib/supabase";
 
 interface EmployeeFilters {
   search: string;
@@ -166,7 +21,7 @@ interface EmployeeFilters {
 }
 
 export default function EmployeesPage() {
-  const [employees, setEmployees] = useState(employeesData);
+  const [employees, setEmployees] = useState<any[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
   const [showEmployeeModal, setShowEmployeeModal] = useState(false);
   const [showEmployeeForm, setShowEmployeeForm] = useState(false);
@@ -179,6 +34,37 @@ export default function EmployeesPage() {
     employmentType: "",
     status: ""
   });
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('employees')
+          .select('*');
+        if (error) throw error;
+        setEmployees(data || []);
+      } catch (error) {
+        console.error(error);
+        alert('従業員データの読み込みに失敗しました。');
+      }
+    };
+    fetchEmployees();
+  }, []);
+
+  const departmentStats = useMemo(() => {
+    const counts: { [key: string]: number } = employees.reduce((acc, emp) => {
+        const dept = emp.employmentInfo?.department || '未分類';
+        acc[dept] = (acc[dept] || 0) + 1;
+        return acc;
+    }, {});
+    
+    const colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#6366f1"];
+    return Object.entries(counts).map(([name, count], index) => ({
+        name,
+        count: count,
+        color: colors[index % colors.length]
+    }));
+  }, [employees]);
 
   const handleEmployeeSelect = (employee: any) => {
     setSelectedEmployee(employee);
@@ -195,25 +81,51 @@ export default function EmployeesPage() {
     setShowEmployeeForm(true);
   };
 
-  const handleEmployeeDelete = (employeeId: string) => {
-    setEmployees(employees.filter(emp => emp.id !== employeeId));
+  const handleEmployeeDelete = async (employeeId: string) => {
+    if (!confirm('本当にこの従業員を削除しますか？')) return;
+    try {
+      const { error } = await supabase
+        .from('employees')
+        .delete()
+        .eq('id', employeeId);
+      if (error) throw error;
+      setEmployees(employees.filter(emp => emp.id !== employeeId));
+      setShowEmployeeModal(false);
+      alert('従業員を削除しました。');
+    } catch (error) {
+      console.error('従業員の削除に失敗しました:', error);
+      alert('従業員の削除に失敗しました。');
+    }
   };
 
-  const handleEmployeeSave = (employeeData: any) => {
-    if (selectedEmployee) {
-      // 編集
-      setEmployees(employees.map(emp => 
-        emp.id === selectedEmployee.id ? { ...emp, ...employeeData } : emp
-      ));
-    } else {
-      // 新規追加
-      const newEmployee = {
-        id: `EMP${String(employees.length + 1).padStart(3, '0')}`,
-        ...employeeData
-      };
-      setEmployees([...employees, newEmployee]);
+  const handleEmployeeSave = async (employeeData: any) => {
+    try {
+      if (selectedEmployee) {
+        // 編集
+        const { error } = await supabase
+          .from('employees')
+          .update(employeeData)
+          .eq('id', selectedEmployee.id);
+        if (error) throw error;
+        setEmployees(employees.map(emp => emp.id === selectedEmployee.id ? { ...emp, ...employeeData } : emp));
+        alert('従業員情報を更新しました。');
+      } else {
+        // 新規追加
+        const { data, error } = await supabase
+          .from('employees')
+          .insert([employeeData])
+          .select()
+          .single();
+        if (error) throw error;
+        setEmployees([...employees, data]);
+        alert('新しい従業員を登録しました。');
+      }
+      setShowEmployeeForm(false);
+      setSelectedEmployee(null);
+    } catch (error) {
+      console.error('従業員の保存に失敗しました:', error);
+      alert('従業員の保存に失敗しました。');
     }
-    setShowEmployeeForm(false);
   };
 
   const filteredEmployees = employees.filter(employee => {

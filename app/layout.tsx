@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${inter.className} ${notoSansJP.className}`}>
       <body>{children}</body>
-      <Toaster />
+        <Toaster />
     </html>
   );
 }
