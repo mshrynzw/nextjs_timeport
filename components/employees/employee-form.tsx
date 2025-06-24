@@ -188,7 +188,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.lastName")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.lastName && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.lastName.message}</p>
                   )}
@@ -201,7 +201,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.firstName")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.firstName && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.firstName.message}</p>
                   )}
@@ -217,7 +217,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.lastNameKana")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.lastNameKana && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.lastNameKana.message}</p>
                   )}
@@ -230,7 +230,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.firstNameKana")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.firstNameKana && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.firstNameKana.message}</p>
                   )}
@@ -298,7 +298,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.phoneNumber")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.phoneNumber && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.phoneNumber.message}</p>
                   )}
@@ -312,7 +312,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("personalInfo.email")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.personalInfo?.email && (
                     <p className="text-red-500 text-sm">{form.formState.errors.personalInfo.email.message}</p>
                   )}
@@ -338,7 +338,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("employmentInfo.employeeId")}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.employmentInfo?.employeeId && (
                     <p className="text-red-500 text-sm">{form.formState.errors.employmentInfo.employeeId.message}</p>
                   )}
@@ -453,7 +453,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("salaryInfo.basicSalary", { valueAsNumber: true })}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.salaryInfo?.basicSalary && (
                     <p className="text-red-500 text-sm">{form.formState.errors.salaryInfo.basicSalary.message}</p>
                   )}
@@ -468,7 +468,7 @@ export function EmployeeForm({ employee, isOpen, onClose, onSave }: EmployeeForm
                     {...form.register("salaryInfo.totalAllowance", { valueAsNumber: true })}
                     className="bg-white border-gray-200 focus:border-blue-400"
                   />
-                  {/*
+                  {/* TODO: 型エラーのため修正が必要。
                   {form.formState.errors.salaryInfo?.totalAllowance && (
                     <p className="text-red-500 text-sm">{form.formState.errors.salaryInfo.totalAllowance.message}</p>
                   )}
